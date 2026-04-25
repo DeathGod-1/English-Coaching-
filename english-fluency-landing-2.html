@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>1:1 English Coaching — Pritam</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:      #0c0c0e;
+    --surface: #141416;
+    --card:    #1a1a1d;
+    --border:  rgba(255,255,255,0.08);
+    --white:   #f4f4f0;
+    --muted:   #6a6a72;
+    --accent:  #e8c87a;
+    --error:   #e05c5c;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Outfit', sans-serif;
+    background: var(--bg);
+    color: var(--white);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  body::after {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 999; opacity: 0.5;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    min-height: 100svh;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 80px 28px 64px;
+    overflow: hidden;
+  }
+
+  .blob { position: absolute; border-radius: 50%; filter: blur(80px); pointer-events: none; z-index: 0; }
+  .blob-1 { width: 320px; height: 320px; background: rgba(232,200,122,0.09); top: -60px; right: -80px; }
+  .blob-2 { width: 260px; height: 260px; background: rgba(196,122,58,0.07); bottom: 40px; left: -60px; }
+
+  .hero::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    opacity: 0.35;
+  }
+
+  .hero-inner { position: relative; z-index: 1; max-width: 500px; margin: 0 auto; width: 100%; }
+
+  .handle {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 11px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 28px;
+    opacity: 0; animation: up 0.6s ease 0.1s forwards;
+  }
+  .handle-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--accent); }
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(40px, 10vw, 62px);
+    font-weight: 700; line-height: 1.08; letter-spacing: -0.02em;
+    opacity: 0; animation: up 0.7s ease 0.2s forwards;
+  }
+  h1 em { font-style: italic; font-weight: 500; color: var(--accent); }
+
+  .subtitle {
+    margin-top: 22px; font-size: 15px; font-weight: 300; line-height: 1.75;
+    color: var(--muted); max-width: 360px;
+    opacity: 0; animation: up 0.7s ease 0.35s forwards;
+  }
+
+  .specs {
+    display: flex; flex-wrap: wrap; gap: 10px; margin-top: 32px;
+    opacity: 0; animation: up 0.7s ease 0.5s forwards;
+  }
+  .spec {
+    display: flex; align-items: center; gap: 7px;
+    border: 1px solid var(--border); border-radius: 6px;
+    padding: 7px 14px; font-size: 12.5px; font-weight: 400;
+    color: rgba(244,244,240,0.65); background: rgba(255,255,255,0.03);
+  }
+
+  .cta-row {
+    margin-top: 44px; display: flex; align-items: center; gap: 20px;
+    opacity: 0; animation: up 0.7s ease 0.65s forwards;
+  }
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--accent); color: #0c0c0e;
+    border: none; border-radius: 8px; padding: 14px 26px;
+    font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 600;
+    cursor: pointer; text-decoration: none;
+    transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 0 28px rgba(232,200,122,0.2);
+  }
+  .btn-primary:hover { background: #f0d48a; transform: translateY(-2px); box-shadow: 0 4px 36px rgba(232,200,122,0.3); }
+  .stat-note { font-size: 12px; color: var(--muted); font-weight: 300; line-height: 1.5; }
+  .stat-note strong { color: var(--white); font-weight: 500; display: block; font-size: 14px; }
+
+  /* ── FORM SECTION ── */
+  .form-section {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    padding: 64px 28px 80px; position: relative;
+  }
+  .form-section::before {
+    content: '';
+    position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+    width: 1px; height: 64px;
+    background: linear-gradient(to bottom, transparent, var(--accent));
+    opacity: 0.3;
+  }
+
+  .form-wrap { max-width: 480px; margin: 0 auto; }
+
+  .form-kicker { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); font-weight: 500; margin-bottom: 12px; }
+  .form-heading { font-family: 'Playfair Display', serif; font-size: 30px; font-weight: 700; line-height: 1.2; margin-bottom: 8px; }
+  .form-sub { font-size: 14px; color: var(--muted); font-weight: 300; margin-bottom: 40px; line-height: 1.65; }
+
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 420px) { .field-row { grid-template-columns: 1fr; } }
+
+  .field { display: flex; flex-direction: column; gap: 7px; margin-bottom: 20px; }
+
+  label { font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+  label .req { color: var(--accent); }
+
+  input, select, textarea {
+    width: 100%; background: var(--card);
+    border: 1.5px solid var(--border); border-radius: 8px;
+    padding: 12px 14px;
+    font-family: 'Outfit', sans-serif; font-size: 14.5px; font-weight: 300;
+    color: var(--white); outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+    -webkit-appearance: none; appearance: none;
+  }
+  input::placeholder, textarea::placeholder { color: #333338; }
+  input:focus, select:focus, textarea:focus {
+    border-color: rgba(232,200,122,0.45);
+    background: #1e1e21;
+    box-shadow: 0 0 0 3px rgba(232,200,122,0.07);
+  }
+  select option { background: #1a1a1d; }
+
+  .select-wrap { position: relative; }
+  .select-wrap::after { content: '▾'; position: absolute; right: 14px; top: 50%; transform: translateY(-50%); color: var(--muted); pointer-events: none; font-size: 12px; }
+  select { cursor: pointer; padding-right: 36px; }
+  textarea { resize: none; min-height: 88px; }
+
+  .pills { display: flex; flex-wrap: wrap; gap: 8px; }
+  .pill-input { display: none; }
+  .pill-label {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 8px 16px; border-radius: 6px;
+    border: 1.5px solid var(--border);
+    font-size: 13px; font-weight: 400; cursor: pointer;
+    transition: all 0.18s; background: var(--card);
+    color: rgba(244,244,240,0.5); user-select: none;
+  }
+  .pill-input:checked + .pill-label {
+    background: rgba(232,200,122,0.1);
+    border-color: rgba(232,200,122,0.45);
+    color: var(--accent);
+  }
+
+  /* loading spinner on button */
+  .submit-btn {
+    width: 100%; margin-top: 8px;
+    background: var(--accent); color: #0c0c0e;
+    border: none; border-radius: 8px; padding: 16px;
+    font-family: 'Outfit', sans-serif; font-size: 15px; font-weight: 600;
+    cursor: pointer; letter-spacing: 0.02em;
+    transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+    box-shadow: 0 0 24px rgba(232,200,122,0.18);
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+  }
+  .submit-btn:hover:not(:disabled) { background: #f0d48a; transform: translateY(-1px); box-shadow: 0 4px 32px rgba(232,200,122,0.28); }
+  .submit-btn:active { transform: translateY(0); }
+  .submit-btn:disabled { opacity: 0.7; cursor: not-allowed; }
+
+  .spinner {
+    width: 16px; height: 16px; border-radius: 50%;
+    border: 2px solid rgba(12,12,14,0.3);
+    border-top-color: #0c0c0e;
+    animation: spin 0.7s linear infinite;
+    display: none;
+  }
+  .submit-btn.loading .spinner { display: block; }
+  .submit-btn.loading .btn-text { display: none; }
+
+  .privacy-note { text-align: center; font-size: 11.5px; color: #44444c; margin-top: 18px; line-height: 1.6; }
+
+  /* error banner */
+  .error-banner {
+    display: none; background: rgba(224,92,92,0.1);
+    border: 1px solid rgba(224,92,92,0.3); border-radius: 8px;
+    padding: 12px 16px; margin-top: 14px;
+    font-size: 13px; color: #e88080; text-align: center;
+  }
+  .error-banner.show { display: block; }
+
+  /* success */
+  .success-msg { display: none; text-align: center; padding: 48px 16px; }
+  .success-msg.show { display: block; }
+  .success-ring {
+    width: 68px; height: 68px; border-radius: 50%;
+    border: 1.5px solid rgba(232,200,122,0.35);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 24px; font-size: 26px;
+    background: rgba(232,200,122,0.06);
+  }
+  .success-msg h3 { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; margin-bottom: 12px; }
+  .success-msg p { font-size: 14px; color: var(--muted); line-height: 1.75; }
+
+  /* footer */
+  footer {
+    background: var(--bg); border-top: 1px solid var(--border);
+    padding: 28px 24px;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 12px;
+  }
+  footer span { font-size: 12px; color: #3a3a40; letter-spacing: 0.04em; }
+  footer a { font-size: 12px; color: var(--accent); text-decoration: none; font-weight: 500; }
+  footer a:hover { text-decoration: underline; }
+
+  @keyframes up {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes shake {
+    0%,100%{transform:translateX(0)} 20%{transform:translateX(-5px)}
+    40%{transform:translateX(5px)} 60%{transform:translateX(-4px)} 80%{transform:translateX(4px)}
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+
+  <div class="hero-inner">
+    <span class="handle"><span class="handle-dot"></span>@englishessentials101 · Pritam</span>
+
+    <h1>English that<br>works for your<br><em>real life.</em></h1>
+
+    <p class="subtitle">
+      Private 1:1 coaching for professionals — whether you're preparing for IELTS, levelling up at work, or just want to speak with real confidence.
+    </p>
+
+    <div class="specs">
+      <span class="spec">💼 Business Communication</span>
+      <span class="spec">📝 IELTS &amp; Exam Prep</span>
+      <span class="spec">🗣️ General Fluency</span>
+      <span class="spec">🎯 1:1 Only</span>
+    </div>
+
+    <div class="cta-row">
+      <a href="#join" class="btn-primary">
+        Get started
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <path d="M7 2v10M2 7l5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+      <div class="stat-note">
+        <strong>6 years of experience</strong>
+        helping professionals build real communication skills
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="form-section" id="join">
+  <div class="form-wrap">
+    <p class="form-kicker">Apply for coaching</p>
+    <h2 class="form-heading">Book your first session</h2>
+    <p class="form-sub">Fill this in and I'll reach out on WhatsApp to discuss your goals and set things up.</p>
+
+    <div id="theForm">
+
+      <div class="field-row">
+        <div class="field">
+          <label>First Name <span class="req">*</span></label>
+          <input type="text" id="firstName" placeholder="Priya" required>
+        </div>
+        <div class="field">
+          <label>Last Name <span class="req">*</span></label>
+          <input type="text" id="lastName" placeholder="Sharma" required>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>WhatsApp Number <span class="req">*</span></label>
+        <input type="tel" id="whatsapp" placeholder="+91 98765 43210" required>
+      </div>
+
+      <div class="field">
+        <label>What are you looking for? <span class="req">*</span></label>
+        <div class="pills">
+          <input class="pill-input" type="radio" name="goal_type" id="gt1" value="Work & Professional English">
+          <label class="pill-label" for="gt1">💼 Work &amp; Professional</label>
+
+          <input class="pill-input" type="radio" name="goal_type" id="gt2" value="Exam Prep (IELTS / TOEFL / OET)">
+          <label class="pill-label" for="gt2">📝 Exam Prep</label>
+
+          <input class="pill-input" type="radio" name="goal_type" id="gt3" value="General Speaking & Confidence">
+          <label class="pill-label" for="gt3">🗣️ General Speaking</label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Current English Level <span class="req">*</span></label>
+        <div class="pills">
+          <input class="pill-input" type="radio" name="level" id="lvl1" value="Beginner">
+          <label class="pill-label" for="lvl1">Beginner</label>
+
+          <input class="pill-input" type="radio" name="level" id="lvl2" value="Elementary">
+          <label class="pill-label" for="lvl2">Elementary</label>
+
+          <input class="pill-input" type="radio" name="level" id="lvl3" value="Intermediate">
+          <label class="pill-label" for="lvl3">Intermediate</label>
+
+          <input class="pill-input" type="radio" name="level" id="lvl4" value="Upper-Intermediate">
+          <label class="pill-label" for="lvl4">Upper-Intermediate</label>
+
+          <input class="pill-input" type="radio" name="level" id="lvl5" value="Advanced">
+          <label class="pill-label" for="lvl5">Advanced</label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Your goals <span class="req">*</span></label>
+        <textarea id="goals" placeholder="e.g. I struggle on client calls, targeting IELTS band 7, want to sound more natural in presentations…"></textarea>
+      </div>
+
+      <div class="field">
+        <label>Time Zone <span class="req">*</span></label>
+        <div class="select-wrap">
+          <select id="timezone">
+            <option value="" disabled selected>Select your time zone</option>
+            <option>IST — India (UTC+5:30)</option>
+            <option>GST — Gulf (UTC+4)</option>
+            <option>GMT — UK (UTC+0)</option>
+            <option>CET — Europe (UTC+1)</option>
+            <option>EST — US East (UTC-5)</option>
+            <option>PST — US West (UTC-8)</option>
+            <option>SGT — Singapore (UTC+8)</option>
+            <option>AEST — Australia East (UTC+10)</option>
+            <option>Other</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Best times to meet</label>
+        <input type="text" id="availability" placeholder="e.g. Weekday evenings, Saturday mornings">
+      </div>
+
+      <button class="submit-btn" id="submitBtn" onclick="handleSubmit()">
+        <span class="btn-text">Send my interest →</span>
+        <span class="spinner"></span>
+      </button>
+
+      <div class="error-banner" id="errorBanner">
+        Something went wrong. Please try again or DM me on Instagram.
+      </div>
+
+      <p class="privacy-note">🔒 Your details are private — only used to set up your session.</p>
+
+    </div>
+
+    <div class="success-msg" id="successMsg">
+      <div class="success-ring">✓</div>
+      <h3>You're on my radar!</h3>
+      <p>Thanks for reaching out. I'll review what you're working on and message you on WhatsApp to set up your first session.</p>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <span>© 2025 Pritam · englishessentials101</span>
+  <a href="https://instagram.com/englishessentials101" target="_blank">Instagram ↗</a>
+</footer>
+
+<script>
+  const SHEET_URL = "https://script.google.com/macros/s/AKfycbwA0sSt3vJxvdg_QNykQX3wbnj6Vlx8o2GIgJjWsX0ZqMMOkyIKdi8Nf6eieyI54USHJg/exec";
+
+  async function handleSubmit() {
+    const first    = document.getElementById('firstName').value.trim();
+    const last     = document.getElementById('lastName').value.trim();
+    const wa       = document.getElementById('whatsapp').value.trim();
+    const goalType = document.querySelector('input[name="goal_type"]:checked');
+    const level    = document.querySelector('input[name="level"]:checked');
+    const goals    = document.getElementById('goals').value.trim();
+    const tz       = document.getElementById('timezone').value;
+    const avail    = document.getElementById('availability').value.trim();
+
+    // Validation
+    const missingEls = [
+      !first && document.getElementById('firstName'),
+      !last  && document.getElementById('lastName'),
+      !wa    && document.getElementById('whatsapp'),
+      !goals && document.getElementById('goals'),
+      !tz    && document.getElementById('timezone'),
+    ].filter(Boolean);
+
+    if (!first || !last || !wa || !goalType || !level || !goals || !tz) {
+      missingEls.forEach(el => {
+        el.style.borderColor = '#e05c5c';
+        void el.offsetWidth;
+        el.style.animation = 'shake 0.35s ease';
+        setTimeout(() => { el.style.animation = ''; el.style.borderColor = ''; }, 1600);
+      });
+      if (!goalType || !level) {
+        document.querySelectorAll('.pill-label').forEach(l => {
+          l.style.borderColor = 'rgba(224,92,92,0.5)';
+          setTimeout(() => l.style.borderColor = '', 1600);
+        });
+      }
+      return;
+    }
+
+    // Loading state
+    const btn = document.getElementById('submitBtn');
+    btn.classList.add('loading');
+    btn.disabled = true;
+    document.getElementById('errorBanner').classList.remove('show');
+
+    const payload = {
+      firstName:    first,
+      lastName:     last,
+      whatsapp:     wa,
+      goalType:     goalType.value,
+      level:        level.value,
+      goals:        goals,
+      timezone:     tz,
+      availability: avail || '—'
+    };
+
+    try {
+      await fetch(SHEET_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      // no-cors means we can't read the response — assume success if no throw
+      document.getElementById('theForm').style.display = 'none';
+      document.getElementById('successMsg').classList.add('show');
+      window.scrollTo({ top: document.getElementById('join').offsetTop - 20, behavior: 'smooth' });
+
+    } catch (err) {
+      btn.classList.remove('loading');
+      btn.disabled = false;
+      document.getElementById('errorBanner').classList.add('show');
+    }
+  }
+</script>
+</body>
+</html>
